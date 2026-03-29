@@ -1,0 +1,395 @@
+:root {
+    /* Light Theme - Fallback */
+    --bg-primary: #fcfcfc;
+    --bg-secondary: #f0f0f5;
+    --bg-tertiary: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #8a8a8a;
+    --border: #e0e0e0;
+    --accent-primary: #2b2b2b;
+    --accent-teal: #0f766e;
+    --accent-teal-soft: #ccfbf1;
+    --nav-bg: rgba(252, 252, 252, 0.85);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+body.dark {
+    /* Dark Theme - Sleek Grays & Subtle Accents */
+    --bg-primary: #0f1115; /* Very dark slate gray */
+    --bg-secondary: #171920; /* Slightly lighter grayish blue */
+    --bg-tertiary: #1c1f26; /* Card backgrounds */
+    --text-primary: #e2e8f0; /* Soft white */
+    --text-secondary: #94a3b8; /* Slate gray text */
+    --text-muted: #64748b;
+    --border: #2e3440;
+    --accent-primary: #f8fafc;
+    --accent-teal: #2dd4bf; /* Subtle teal for tech/medical accent */
+    --accent-teal-soft: rgba(45, 212, 191, 0.1);
+    --nav-bg: rgba(15, 17, 21, 0.85);
+    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    font-size: 1.05rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Offset for sticky navbar */
+}
+
+/* Typography */
+h1, h2, h3, h4, .logo {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+h2 { font-size: 1.75rem; margin-top: 3.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+h3 { font-size: 1.25rem; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--text-primary); }
+h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+p {
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+em {
+    color: var(--accent-teal);
+    font-style: italic;
+}
+
+/* Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 20px 80px; /* Top padding for fixed navbar */
+    display: flex;
+    gap: 4rem;
+}
+
+.content {
+    flex: 1;
+    max-width: 750px;
+}
+
+/* Navbar (Glassmorphic) */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--nav-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.75rem 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+/* Progress Bar */
+#progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: transparent;
+    z-index: 1000;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-teal), #818cf8);
+    transition: width 0.1s;
+}
+
+/* Buttons and Toggles */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+/* Sidebar & ToC */
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    display: none; /* Mobile hidden by default */
+}
+
+@media (min-width: 1024px) {
+    .sidebar {
+        display: block;
+    }
+}
+
+#toc {
+    position: sticky;
+    top: 100px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 1rem;
+}
+
+/* Custom Scrollbar for ToC */
+#toc::-webkit-scrollbar {
+    width: 4px;
+}
+#toc::-webkit-scrollbar-track {
+    background: transparent;
+}
+#toc::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+}
+
+#toc h3 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-top: 0;
+    margin-bottom: 1rem;
+    border: none;
+}
+
+#toc ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#toc ul ul {
+    padding-left: 1rem;
+    margin-top: 0;
+}
+
+#toc li {
+    margin-bottom: 0.25rem;
+}
+
+#toc a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    display: block;
+    padding: 0.35rem 0;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    margin-left: -14px;
+    border-radius: 0 4px 4px 0;
+}
+
+#toc a:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+#toc a.active {
+    color: var(--accent-teal);
+    border-left-color: var(--accent-teal);
+    font-weight: 500;
+}
+
+/* Article Specifics */
+.article-header {
+    margin-bottom: 3.5rem;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: var(--accent-teal);
+    font-weight: 500;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3.5rem 0;
+}
+
+.highlight-quote {
+    margin: 2rem 0;
+    padding: 1.5rem 2rem;
+    border-left: 4px solid var(--accent-teal);
+    background-color: var(--bg-secondary);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.styled-list {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.styled-list li {
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+}
+
+.styled-list li strong {
+    color: var(--text-primary);
+}
+
+.number-list {
+    margin-left: 1.5rem;
+}
+
+/* Cards & Grid for Section 4.3 */
+.card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+}
+
+@media (min-width: 768px) {
+    .card-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.card {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    border-color: var(--accent-teal);
+}
+
+.card h4 {
+    color: var(--accent-teal);
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.15rem;
+}
+
+.card p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+/* Diagram styling */
+.diagram-container {
+    margin: 3.5rem 0;
+    padding: 2rem;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.diagram-caption {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+}
+
+.mermaid {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+/* Mermaid dynamic theming overrides */
+.mermaid svg .node rect,
+.mermaid svg .node circle,
+.mermaid svg .node ellipse,
+.mermaid svg .node polygon,
+.mermaid svg .node path {
+    fill: var(--bg-tertiary) !important;
+    stroke: var(--border) !important;
+}
+.mermaid svg .node text {
+    fill: var(--text-primary) !important;
+}
+.mermaid svg .edgePath .path {
+    stroke: var(--text-secondary) !important;
+}
+.mermaid svg .edgeLabel {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-primary) !important;
+}
+.mermaid svg .edgeLabel rect {
+    fill: var(--bg-primary) !important;
+}
+.mermaid svg .cluster rect {
+    fill: var(--bg-secondary) !important;
+    stroke: var(--border) !important;
+    rx: 8px !important;
+}
+.mermaid svg .cluster text {
+    fill: var(--text-primary) !important;
+}
+.mermaid svg marker path {
+    fill: var(--text-secondary) !important;
+    stroke: var(--text-secondary) !important;
+}
+

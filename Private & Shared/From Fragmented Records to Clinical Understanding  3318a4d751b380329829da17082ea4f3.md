@@ -1,0 +1,169 @@
+# From Fragmented Records to Clinical Understanding:A Multi-Agent System for Longitudinal Reasoning
+
+# **Abstract**
+
+This paper addresses a fundamental limitation in modern healthcare systems: not the absence of data, but the inability to construct coherent understanding from it. Clinical information is fragmented across sources and time, resulting in a condition of epistemic fragmentation in which relevant knowledge exists but cannot be effectively assembled or reasoned over.
+
+We present Alison, a system designed to construct and maintain a longitudinal representation of patient state by integrating heterogeneous clinical data into a structured knowledge graph and operating over it through a multi-agent architecture. Unlike conventional systems that either store data or generate responses, Alison is designed to produce structured, traceable claims that support ongoing clinical interpretation.
+
+The system is grounded in principles derived from the philosophy of Karl Popper, in which knowledge is defined not by asserted conclusions but by claims that are testable and open to revision. This epistemic stance imposes constraints on system design, including the need for provenance, separation of interpretive stages, and explicit handling of uncertainty. These constraints are implemented through a multi-agent architecture in which each component contributes to maintaining the traceability and falsifiability of outputs.
+
+We argue that the effectiveness of clinical AI systems depends not only on model capability, but on the structure within which knowledge is produced. By aligning system architecture with epistemic principles, Alison demonstrates an alternative approach to clinical intelligence — one focused on constructing understanding that remains transparent, testable, and continuously evolving over time.
+
+# **1. The Problem: Epistemic Fragmentation in Healthcare**
+
+Modern healthcare systems do not suffer from a lack of data. Clinical information is generated continuously — laboratory results, imaging reports, prescriptions, specialist notes, and patient-reported symptoms accumulate over years of care. In most cases, the relevant data needed to understand a patient’s condition already exists.
+
+The problem is that this data does not exist in a form that can be coherently understood.
+
+Patient information is fragmented across institutions, formats, and time. A single individual may see multiple clinicians over the course of years, each encounter producing a partial view of their health. These fragments are stored in separate systems, structured differently, and rarely integrated into a unified representation. As a result, no single clinician — and no existing system — has access to a complete, longitudinal picture of the patient.
+
+This creates a condition that is best understood not as a technical limitation, but as an epistemic one. The issue is not the absence of information, but the inability to assemble and reason over that information as a whole. Knowledge, in this context, is distributed: each data source contains something true, but the relationships between those truths — the patterns that emerge across time — remain inaccessible.
+
+The consequences are significant. Clinicians are forced to reconstruct patient histories repeatedly, often under time constraints and with incomplete information. Subtle longitudinal patterns — gradual changes in biomarkers, correlations between symptoms and treatments, or early signals of deterioration — are frequently missed. Patients experience this as inconsistency, delayed insight, and a lack of clear explanation for their condition.
+
+Existing systems do little to address this gap. Electronic health records function primarily as repositories of information rather than mechanisms for understanding. Analytical tools may surface isolated metrics or trends, but they rarely integrate data into a coherent, evolving representation of the patient. As a result, the burden of interpretation remains largely on the clinician, who must mentally reconstruct the patient’s trajectory from fragmented inputs.
+
+This paper frames the problem as one of **epistemic fragmentation**: a structural condition in which relevant knowledge exists but cannot be effectively assembled or reasoned over. Addressing this problem requires more than improved data access or storage. It requires a system capable of integrating heterogeneous data into a form that supports longitudinal reasoning and produces clinically meaningful insight.
+
+The approach presented here is based on that premise. Rather than treating data as an endpoint, it treats data as the substrate for constructing an evolving understanding of patient state across time
+
+# **2. Epistemic Premise: Constraints on Clinical Knowledge**
+
+If the problem is epistemic — not merely technical — then any proposed solution must begin by clarifying what counts as valid knowledge within the system.
+
+In a clinical context, this question is not abstract. The outputs of a system may influence how clinicians interpret patient data, what they choose to investigate, and ultimately how decisions are made. It is therefore not sufficient for a system to produce plausible or well-formed responses. Its outputs must meet stricter criteria: they must be grounded in evidence, traceable to their sources, and open to verification.
+
+***This work adopts a position aligned with the philosophy of Karl Popper, in which knowledge is not established by asserting conclusions as true, but by producing claims that remain testable and open to falsification. Under this view, the role of a system is not to declare what is the case, but to surface statements that can be checked against underlying data and revised in light of new evidence.***
+
+Applied to clinical data, this imposes a set of constraints on what the system can legitimately output. Statements must be grounded in observable data points rather than inferred without support. Relationships between variables must be presented as patterns or associations, not as definitive causal claims. Interpretations must remain provisional, capable of being updated or discarded as additional information becomes available.
+
+These constraints have direct implications for system design. A system that produces outputs without traceable links to source data cannot support verification. A system that collapses ingestion, interpretation, and validation into a single opaque process cannot ensure that its conclusions remain accountable to evidence. A system that presents its outputs as definitive answers risks overstating what the data can justify.
+
+For this reason, the architecture described in the following section is not solely an engineering choice, but a response to epistemic requirements. The structure of the system — including the use of a knowledge graph, explicit provenance, and separation of functional components — is designed to ensure that every output can be examined, traced, and, if necessary, challenged.
+
+In this sense, the system is not optimized for generating answers, but for maintaining the conditions under which its outputs can be treated as reliable contributions to clinical reasoning.
+
+# **3. System & Architecture: How Understanding Is Built**
+
+Given the epistemic constraints outlined above, the system must do more than store or retrieve data. It must construct a representation of patient state that supports reasoning across time, while ensuring that every output remains grounded, traceable, and open to verification.
+
+To achieve this, Alison is designed as a structured, multi-layered system composed of three core elements: a persistent knowledge representation, a set of coordinated agents, and a reasoning layer operating over structured context.
+
+## **3.1 Structured Memory: The Knowledge Graph**
+
+At the foundation of the system is a clinical knowledge graph, which serves as its primary memory.
+
+All patient-related information — including laboratory results, diagnoses, medications, symptoms, and clinical events — is represented as nodes within the graph. Relationships between these elements, particularly temporal and clinical associations, are encoded as edges. This structure enables the system to represent not just isolated facts, but how those facts relate to one another across time.
+
+A critical property of this representation is provenance. Every node in the graph is linked to its source: a specific document, timestamp, and clinical origin. Extracted information is not treated as unquestionable fact, but as an interpretation of source material that remains open to verification. This ensures that any output produced by the system can be traced back to the underlying data that supports it.
+
+The graph is therefore not simply a storage layer. It is the structure that makes longitudinal reasoning possible, allowing the system to move beyond retrieval toward interpretation.
+
+## **3.2 Multi-Agent System: Decomposing Understanding**
+
+Building on this structured memory, the system is organized as a set of coordinated agents, each responsible for a distinct stage in the process of constructing understanding.
+
+An ingestion agent processes incoming clinical data — such as reports, lab results, or notes — and extracts relevant entities and relationships, which are then written into the graph. A monitoring agent operates over the evolving graph, identifying changes, trends, and emerging signals over time. A reasoning agent, presented to users as Alison, interprets the patient’s state by traversing relevant portions of the graph and assembling clinically meaningful context. A validation layer ensures that outputs remain consistent with the underlying data and flags potential inconsistencies.
+
+This separation is deliberate. By decomposing ingestion, interpretation, and validation into distinct processes, the system avoids collapsing all reasoning into a single opaque model. Each stage can be constrained, inspected, and improved independently, supporting the requirement that outputs remain accountable to their sources.
+
+Understanding, in this framework, is not produced in a single step. It emerges from the interaction of these components over a shared, structured representation.
+
+## **3.3 Reasoning and Orchestration**
+
+The reasoning layer operates not on raw documents, but on structured subgraphs representing the relevant aspects of a patient’s history. This allows the system to incorporate temporal and relational context directly into its outputs.
+
+Rather than generating answers in isolation, the system produces three types of statements: observations grounded in specific data points, patterns identified across time, and interpretations that connect those patterns to clinically meaningful possibilities. Because these outputs are derived from a graph with full provenance, they remain traceable and open to verification.
+
+Coordination across the system is handled by an orchestration layer, which determines when agents are triggered, how context is assembled, and how workflows are executed. As the system evolves, this enables a shift from reactive operation — responding to queries — toward proactive monitoring, where clinically relevant patterns are surfaced as they emerge.
+
+Taken together, these components implement the epistemic constraints defined earlier. The knowledge graph ensures that data is structured and traceable. The multi-agent system ensures that interpretation remains decomposed and inspectable. The reasoning layer ensures that outputs are grounded in relational and temporal context. The result is a system that does not merely process clinical data, but constructs an evolving representation of patient state that can support meaningful, verifiable interpretation
+
+## **4. Epistemic Framework: What Kind of Knowledge Alison Produces**
+
+The architecture described in the previous section defines how Alison processes and represents clinical data. However, the more fundamental question is not how the system operates, but what kind of knowledge its outputs constitute.
+
+In a clinical context, this distinction is critical. Systems that generate plausible or well-structured responses may appear useful, but without clarity on their epistemic status, it is difficult to determine how those outputs should be interpreted, trusted, or acted upon. The value of a system is therefore not only a function of its technical capabilities, but of the conditions under which its outputs can be treated as reliable contributions to reasoning.
+
+This section examines Alison from that perspective. It first characterises the types of claims the system produces, and then analyses how the architecture supports — and constrains — their epistemic validity. In doing so, it connects the structure of the system to the principles outlined earlier, showing how design decisions determine whether outputs remain grounded, testable, and open to revision.
+
+### **4.1 Epistemic Foundations**
+
+Given the constraints outlined in the previous section, the central question becomes more precise: what kind of knowledge does Alison actually produce?
+
+The system does not generate answers in the conventional sense. Instead, it produces structured claims derived from underlying clinical data, each with a distinct epistemic status and level of justification. Understanding these distinctions is critical, as they determine how the system’s outputs should be interpreted and used in practice.
+
+These claims fall into three primary categories.
+
+- **Observations** refer to directly verifiable data points, such as laboratory values, diagnoses, or recorded symptoms. These are grounded in source material and can be checked against the original documents from which they were derived.
+- **Associations** describe patterns across time, including correlations between variables or trends in measurements. These are supported by the data but do not imply causal relationships.
+- **Hypotheses** are interpretive statements that connect observed patterns to possible clinical explanations. These remain provisional and require further validation, typically through clinical judgment or additional evidence.
+
+Importantly, the system does not produce causal conclusions. While observed patterns may be consistent with known clinical mechanisms, Alison does not assert that one variable causes another. This distinction reflects the underlying constraint that outputs must remain testable and open to revision, rather than presented as definitive explanations.
+
+Under this framework, Alison’s role is not to resolve clinical uncertainty, but to structure it. Its outputs are best understood as contributions to an ongoing process of evaluation, where claims can be examined, challenged, and refined as new data becomes available.
+
+## **4.2 From Claims to System Design**
+
+If Alison’s outputs are understood as structured claims — observations, associations, and hypotheses — then the design of the system must ensure that each of these claims can be supported, examined, and, if necessary, challenged.
+
+This imposes a set of concrete requirements on the system.
+
+First, claims must be **verifiable**. Observational statements must be traceable to specific data points and source documents. This requires that all underlying data retain explicit provenance, allowing any claim to be checked against its origin.
+
+Second, claims must be **contextualised across time**. Associations and patterns are only meaningful when situated within a longitudinal view of the patient’s history. The system must therefore represent not only isolated data points, but their relationships and evolution over time.
+
+Third, claims must remain **epistemically separable**. The distinction between observation, pattern, and interpretation must be preserved within the system. If these layers are collapsed — for example, if inferred relationships are stored as facts — the system risks presenting interpretations as established knowledge.
+
+Fourth, claims must be **open to revision**. As new data becomes available, previously identified patterns may be strengthened, weakened, or contradicted. The system must therefore support continuous updating rather than fixed conclusions.
+
+Finally, the process by which claims are produced must be **inspectable**. It must be possible to examine how a given output was generated — what data was used, how it was assembled, and how the resulting interpretation was formed.
+
+These requirements are not independent. Together, they define a set of constraints that the system architecture must satisfy. The following section examines how these constraints are implemented across the different layers of Alison, and how each component contributes to — or risks undermining — the production of epistemically accountable claims.
+
+## **4.3 A Popperian Multi-Agent Architecture**
+
+The architecture described earlier is not only a technical system, but a knowledge-producing system. From the perspective of Karl Popper, the central question is whether such a system is structured in a way that exposes its outputs to potential falsification, or whether it allows errors to propagate unchallenged.
+
+This distinction becomes critical in a multi-agent setting. When a system is composed of multiple components — extraction, storage, reasoning, and orchestration — each stage produces outputs that become inputs for the next. Without explicit mechanisms for evaluation, errors introduced at one stage are carried forward and amplified. In such a configuration, the system risks becoming a pipeline of increasingly coherent but epistemically ungrounded outputs: a system capable of producing convincing interpretations that cannot be reliably traced back to verifiable evidence.
+
+If left unaddressed, this results in a failure mode that is particularly dangerous in clinical contexts: a pipeline of amplified hallucinations, where outputs appear internally consistent but lack accountability to underlying data.
+
+A Popperian approach requires a different structure. Rather than treating the system as a linear pipeline, each boundary between components must be treated as a point of epistemic control — a location where intermediate outputs are not simply passed forward, but are instead exposed to potential challenge, qualification, or rejection.
+
+This principle applies across all layers of the system.
+
+At the data layer, the knowledge graph provides the foundation for falsifiability through provenance. Every data point is linked to a specific source, allowing claims to be checked against original documents. However, this layer is only as reliable as the data it receives. Errors introduced during extraction — incorrect values, misattributed entities, or incomplete readings — enter the graph as if they were valid. To address this, the system must treat all ingested data as provisional, incorporating mechanisms for contradiction detection and revision rather than assuming correctness.
+
+At the extraction layer, outputs generated from unstructured documents must be understood as hypotheses about the content of those documents, not as established facts. Each extracted entity represents an interpretation that may be incomplete or incorrect. A Popperian design therefore requires that these outputs carry an explicit epistemic status — such as extracted, verified, or conflicted — ensuring that downstream components do not treat them as unquestioned inputs.
+
+The presence of multiple agents introduces a further challenge: the propagation of error across layers. When outputs from one agent are consumed by another without qualification, the system accumulates unexamined assumptions. A Popperian architecture resolves this by enforcing validation at each boundary. Outputs must be accompanied by their provenance and epistemic status, and each receiving component must be capable of interpreting and, where necessary, challenging those inputs before incorporating them into further reasoning.
+
+At the reasoning layer, these constraints shape the form of Alison’s outputs. Rather than presenting conclusions, the system produces structured claims with clearly differentiated epistemic status. Observations remain directly verifiable, associations describe patterns without implying causation, and hypotheses are presented as provisional interpretations. This separation ensures that the system does not collapse distinct levels of reasoning into a single, authoritative narrative.
+
+The orchestration layer introduces a more subtle risk. By coordinating how data is selected, assembled, and presented to the reasoning component, it determines the context within which interpretations are formed. Errors at this level — incorrect queries, incomplete subgraphs, or inappropriate triggering of analysis — may not be visible in the final output, yet fundamentally shape its validity. For this reason, orchestration must remain auditable. The process by which context is constructed must be inspectable, allowing outputs to be traced not only to data, but to the decisions that determined which data was considered.
+
+This becomes particularly important as the system evolves from reactive to proactive operation. When Alison responds to explicit queries, the scope of reasoning is externally defined. In a proactive mode, the system determines which patterns to surface and which signals to elevate. This introduces an additional epistemic responsibility: not only must outputs be falsifiable, but the system must actively invite their falsification. Proactive insights must therefore be presented with explicit conditions under which they would not hold, and mechanisms for clinician feedback must be incorporated to enable confirmation or rejection.
+
+Finally, the system as a whole must maintain an audit trail that captures how claims are produced. Every stage — extraction, graph updates, query construction, and reasoning — must be logged in a way that allows reconstruction of the full path from source data to output. This auditability is not merely a technical feature, but a necessary condition for epistemic accountability. Without it, claims cannot be meaningfully tested, and the system’s outputs cannot be treated as reliable.
+
+Taken together, these design principles define a Popperian multi-agent architecture. The system is not organised to maximise output fluency or apparent intelligence, but to ensure that every claim it produces remains grounded, traceable, and open to challenge. In this configuration, understanding does not emerge from the authority of the system, but from its ability to expose its own reasoning to scrutiny
+
+# **5. Positioning, Limitations, and Implications**
+
+The system described in this paper does not fit neatly into existing categories of clinical software. It is not an electronic health record, which primarily serves as a repository of information. It is not a conventional analytics tool, which surfaces isolated metrics or trends. Nor is it a general-purpose language model interface, which generates responses based on unstructured input without persistent, structured memory.
+
+Instead, Alison is best understood as a system for constructing and maintaining a longitudinal representation of patient state. Its primary function is not to store data or answer questions, but to integrate heterogeneous clinical information into a form that supports ongoing interpretation. In this sense, it operates as a clinical intelligence layer, positioned between raw data and decision-making.
+
+This distinction is particularly clear when compared to existing AI systems. Large language models are capable of producing fluent and contextually relevant responses, but they typically operate on transient inputs and lack a persistent, structured representation of patient history. As a result, they are limited in their ability to reason over time or maintain consistency across interactions. Conversely, traditional clinical systems maintain structured data but do not actively construct or update interpretations. Alison combines these dimensions, but does so under explicit epistemic constraints that govern how outputs are formed and presented.
+
+At the same time, the system has clear limitations. Its outputs are dependent on the quality and completeness of the underlying data. Errors introduced during extraction or inconsistencies across data sources can affect the integrity of the knowledge graph and, by extension, the interpretations derived from it. While the architecture is designed to surface and manage such issues, it cannot eliminate them entirely.
+
+More fundamentally, the system does not establish causal relationships or make definitive clinical judgments. The distinction between observation, association, and hypothesis is maintained precisely to avoid overreach. As a result, Alison’s outputs require interpretation and validation by clinicians, and are intended to support — rather than replace — clinical reasoning.
+
+These limitations reflect a deliberate design choice. By constraining what the system claims to know, the architecture preserves the conditions under which its outputs can be treated as reliable. In doing so, it shifts the role of AI in healthcare from one of answer generation to one of structured interpretation.
+
+The implications of this approach are both practical and conceptual. Clinically, it offers a way to surface longitudinal patterns that would otherwise remain difficult to detect, reducing the cognitive burden on practitioners and improving continuity of understanding across time. Epistemically, it suggests a different model for AI systems in complex domains: one in which the primary objective is not to produce authoritative conclusions, but to construct representations that remain open to inspection, challenge, and revision.
+
+In this sense, Alison is not defined by the answers it provides, but by the structure it imposes on uncertainty. Its value lies in enabling a more transparent and testable form of reasoning over clinical data — one in which understanding is not assumed, but continuously constructed and refined
