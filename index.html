@@ -17,13 +17,13 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 </head>
 <body class="dark">
-    <div id="progress-container">
-        <div id="progress-bar"></div>
-    </div>
-
     <header class="navbar">
+        <canvas id="node-highway"></canvas>
         <div class="navbar-content">
-            <div class="logo">Clinical Architecture</div>
+            <div class="logo-wrapper">
+                <img src="Frame_3_animated.svg" alt="Animated Logo" class="header-logo">
+                <div class="logo">Clinical Architecture</div>
+            </div>
             <button id="theme-toggle" aria-label="Toggle Dark Mode">
                 <svg class="icon sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                 <svg class="icon moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -60,12 +60,12 @@
 
         <main class="content">
             <article>
-                <header class="article-header">
+                <header class="article-header" data-reveal>
                     <h1>From Fragmented Records to Clinical Understanding</h1>
                     <p class="subtitle">A Multi-Agent System for Longitudinal Reasoning</p>
                 </header>
 
-                <section id="abstract">
+                <section id="abstract" data-reveal>
                     <h2>Abstract</h2>
                     <p>This paper addresses a fundamental limitation in modern healthcare systems: not the absence of data, but the inability to construct coherent understanding from it. Clinical information is fragmented across sources and time, resulting in a condition of epistemic fragmentation in which relevant knowledge exists but cannot be effectively assembled or reasoned over.</p>
                     <p>We present <strong>Alison</strong>, a system designed to construct and maintain a longitudinal representation of patient state by integrating heterogeneous clinical data into a structured knowledge graph and operating over it through a multi-agent architecture. Unlike conventional systems that either store data or generate responses, Alison is designed to produce structured, traceable claims that support ongoing clinical interpretation.</p>
@@ -73,9 +73,9 @@
                     <p>We argue that the effectiveness of clinical AI systems depends not only on model capability, but on the structure within which knowledge is produced. By aligning system architecture with epistemic principles, Alison demonstrates an alternative approach to clinical intelligence — one focused on constructing understanding that remains transparent, testable, and continuously evolving over time.</p>
                 </section>
 
-                <hr>
+                <hr data-reveal>
 
-                <section id="problem-epistemic-fragmentation">
+                <section id="problem-epistemic-fragmentation" data-reveal>
                     <h2>1. The Problem: Epistemic Fragmentation in Healthcare</h2>
                     <p>Modern healthcare systems do not suffer from a lack of data. Clinical information is generated continuously — laboratory results, imaging reports, prescriptions, specialist notes, and patient-reported symptoms accumulate over years of care. In most cases, the relevant data needed to understand a patient’s condition already exists.</p>
                     <p>The problem is that this data does not exist in a form that can be coherently understood.</p>
@@ -87,9 +87,9 @@
                     <p>The approach presented here is based on that premise. Rather than treating data as an endpoint, it treats data as the substrate for constructing an evolving understanding of patient state across time.</p>
                 </section>
 
-                <hr>
+                <hr data-reveal>
 
-                <section id="epistemic-premise">
+                <section id="epistemic-premise" data-reveal>
                     <h2>2. Epistemic Premise: Constraints on Clinical Knowledge</h2>
                     <p>If the problem is epistemic — not merely technical — then any proposed solution must begin by clarifying what counts as valid knowledge within the system.</p>
                     <p>In a clinical context, this question is not abstract. The outputs of a system may influence how clinicians interpret patient data, what they choose to investigate, and ultimately how decisions are made. It is therefore not sufficient for a system to produce plausible or well-formed responses. Its outputs must meet stricter criteria: they must be grounded in evidence, traceable to their sources, and open to verification.</p>
@@ -102,14 +102,14 @@
                     <p>In this sense, the system is not optimized for generating answers, but for maintaining the conditions under which its outputs can be treated as reliable contributions to clinical reasoning.</p>
                 </section>
 
-                <hr>
+                <hr data-reveal>
 
                 <section id="system-architecture">
                     <h2>3. System & Architecture: How Understanding Is Built</h2>
                     <p>Given the epistemic constraints outlined above, the system must do more than store or retrieve data. It must construct a representation of patient state that supports reasoning across time, while ensuring that every output remains grounded, traceable, and open to verification.</p>
                     <p>To achieve this, Alison is designed as a structured, multi-layered system composed of three core elements: a persistent knowledge representation, a set of coordinated agents, and a reasoning layer operating over structured context.</p>
-
-                    <div class="diagram-container">
+ 
+                    <div class="diagram-container glass">
                         <div class="mermaid">
                             graph TD
                                 subgraph Clinical_Environment
@@ -141,7 +141,7 @@
                         <p class="diagram-caption">Figure 1: Alison Multi-Agent Architecture for Clinical Reasoning</p>
                     </div>
 
-                    <div id="structured-memory" class="subsection">
+                    <div id="structured-memory" class="subsection" data-reveal>
                         <h3>3.1 Structured Memory: The Knowledge Graph</h3>
                         <p>At the foundation of the system is a clinical knowledge graph, which serves as its primary memory.</p>
                         <p>All patient-related information — including laboratory results, diagnoses, medications, symptoms, and clinical events — is represented as nodes within the graph. Relationships between these elements, particularly temporal and clinical associations, are encoded as edges. This structure enables the system to represent not just isolated facts, but how those facts relate to one another across time.</p>
@@ -149,7 +149,7 @@
                         <p>The graph is therefore not simply a storage layer. It is the structure that makes longitudinal reasoning possible, allowing the system to move beyond retrieval toward interpretation.</p>
                     </div>
 
-                    <div id="multi-agent-system" class="subsection">
+                    <div id="multi-agent-system" class="subsection" data-reveal>
                         <h3>3.2 Multi-Agent System: Decomposing Understanding</h3>
                         <p>Building on this structured memory, the system is organized as a set of coordinated agents, each responsible for a distinct stage in the process of constructing understanding.</p>
                         <p>An <strong>ingestion agent</strong> processes incoming clinical data — such as reports, lab results, or notes — and extracts relevant entities and relationships, which are then written into the graph. A <strong>monitoring agent</strong> operates over the evolving graph, identifying changes, trends, and emerging signals over time. A <strong>reasoning agent</strong>, presented to users as Alison, interprets the patient’s state by traversing relevant portions of the graph and assembling clinically meaningful context. A <strong>validation layer</strong> ensures that outputs remain consistent with the underlying data and flags potential inconsistencies.</p>
@@ -157,7 +157,7 @@
                         <p>Understanding, in this framework, is not produced in a single step. It emerges from the interaction of these components over a shared, structured representation.</p>
                     </div>
 
-                    <div id="reasoning-and-orchestration" class="subsection">
+                    <div id="reasoning-and-orchestration" class="subsection" data-reveal>
                         <h3>3.3 Reasoning and Orchestration</h3>
                         <p>The reasoning layer operates not on raw documents, but on structured subgraphs representing the relevant aspects of a patient’s history. This allows the system to incorporate temporal and relational context directly into its outputs.</p>
                         <p>Rather than generating answers in isolation, the system produces three types of statements: observations grounded in specific data points, patterns identified across time, and interpretations that connect those patterns to clinically meaningful possibilities. Because these outputs are derived from a graph with full provenance, they remain traceable and open to verification.</p>
@@ -166,15 +166,15 @@
                     </div>
                 </section>
 
-                <hr>
+                <hr data-reveal>
 
-                <section id="epistemic-framework">
+                <section id="epistemic-framework" data-reveal>
                     <h2>4. Epistemic Framework: What Kind of Knowledge Alison Produces</h2>
                     <p>The architecture described in the previous section defines how Alison processes and represents clinical data. However, the more fundamental question is not how the system operates, but what kind of knowledge its outputs constitute.</p>
                     <p>In a clinical context, this distinction is critical. Systems that generate plausible or well-structured responses may appear useful, but without clarity on their epistemic status, it is difficult to determine how those outputs should be interpreted, trusted, or acted upon. The value of a system is therefore not only a function of its technical capabilities, but of the conditions under which its outputs can be treated as reliable contributions to reasoning.</p>
                     <p>This section examines Alison from that perspective. It first characterises the types of claims the system produces, and then analyses how the architecture supports — and constrains — their epistemic validity. In doing so, it connects the structure of the system to the principles outlined earlier, showing how design decisions determine whether outputs remain grounded, testable, and open to revision.</p>
 
-                    <div id="epistemic-foundations" class="subsection">
+                    <div id="epistemic-foundations" class="subsection" data-reveal>
                         <h3>4.1 Epistemic Foundations</h3>
                         <p>Given the constraints outlined in the previous section, the central question becomes more precise: what kind of knowledge does Alison actually produce?</p>
                         <p>The system does not generate answers in the conventional sense. Instead, it produces structured claims derived from underlying clinical data, each with a distinct epistemic status and level of justification. Understanding these distinctions is critical, as they determine how the system’s outputs should be interpreted and used in practice.</p>
@@ -188,7 +188,7 @@
                         <p>Under this framework, Alison’s role is not to resolve clinical uncertainty, but to structure it. Its outputs are best understood as contributions to an ongoing process of evaluation, where claims can be examined, challenged, and refined as new data becomes available.</p>
                     </div>
 
-                    <div id="claims-to-design" class="subsection">
+                    <div id="claims-to-design" class="subsection" data-reveal>
                         <h3>4.2 From Claims to System Design</h3>
                         <p>If Alison’s outputs are understood as structured claims — observations, associations, and hypotheses — then the design of the system must ensure that each of these claims can be supported, examined, and, if necessary, challenged.</p>
                         <p>This imposes a set of concrete requirements on the system:</p>
@@ -202,7 +202,7 @@
                         <p>These requirements are not independent. Together, they define a set of constraints that the system architecture must satisfy. The following section examines how these constraints are implemented across the different layers of Alison, and how each component contributes to — or risks undermining — the production of epistemically accountable claims.</p>
                     </div>
 
-                    <div id="popperian-architecture" class="subsection">
+                    <div id="popperian-architecture" class="subsection" data-reveal>
                         <h3>4.3 A Popperian Multi-Agent Architecture</h3>
                         <p>The architecture described earlier is not only a technical system, but a knowledge-producing system. From the perspective of Karl Popper, the central question is whether such a system is structured in a way that exposes its outputs to potential falsification, or whether it allows errors to propagate unchallenged.</p>
                         <p>This distinction becomes critical in a multi-agent setting. When a system is composed of multiple components — extraction, storage, reasoning, and orchestration — each stage produces outputs that become inputs for the next. Without explicit mechanisms for evaluation, errors introduced at one stage are carried forward and amplified. In such a configuration, the system risks becoming a pipeline of increasingly coherent but epistemically ungrounded outputs: a system capable of producing convincing interpretations that cannot be reliably traced back to verifiable evidence.</p>
@@ -210,11 +210,11 @@
                         <p>A Popperian approach requires a different structure. Rather than treating the system as a linear pipeline, each boundary between components must be treated as a point of epistemic control — a location where intermediate outputs are not simply passed forward, but are instead exposed to potential challenge, qualification, or rejection.</p>
                         <p>This principle applies across all layers of the system.</p>
                         <div class="card-grid">
-                            <div class="card">
+                            <div class="card glass">
                                 <h4>At the Data Layer</h4>
                                 <p>The knowledge graph provides the foundation for falsifiability through provenance. Every data point is linked to a specific source, allowing claims to be checked against original documents. However, this layer is only as reliable as the data it receives. Errors introduced during extraction — incorrect values, misattributed entities, or incomplete readings — enter the graph as if they were valid. To address this, the system must treat all ingested data as <em>provisional</em>, incorporating mechanisms for contradiction detection and revision rather than assuming correctness.</p>
                             </div>
-                            <div class="card">
+                            <div class="card glass">
                                 <h4>At the Extraction Layer</h4>
                                 <p>Outputs generated from unstructured documents must be understood as hypotheses about the content of those documents, not as established facts. Each extracted entity represents an interpretation that may be incomplete or incorrect. A Popperian design therefore requires that these outputs carry an explicit epistemic status — such as <em>extracted</em>, <em>verified</em>, or <em>conflicted</em> — ensuring that downstream components do not treat them as unquestioned inputs.</p>
                             </div>
@@ -228,9 +228,9 @@
                     </div>
                 </section>
 
-                <hr>
+                <hr data-reveal>
 
-                <section id="positioning-limitations-implications">
+                <section id="positioning-limitations-implications" data-reveal>
                     <h2>5. Positioning, Limitations, and Implications</h2>
                     <p>The system described in this paper does not fit neatly into existing categories of clinical software. It is not an electronic health record, which primarily serves as a repository of information. It is not a conventional analytics tool, which surfaces isolated metrics or trends. Nor is it a general-purpose language model interface, which generates responses based on unstructured input without persistent, structured memory.</p>
                     <p>Instead, Alison is best understood as a system for constructing and maintaining a longitudinal representation of patient state. Its primary function is not to store data or answer questions, but to integrate heterogeneous clinical information into a form that supports ongoing interpretation. In this sense, it operates as a clinical intelligence layer, positioned between raw data and decision-making.</p>
@@ -251,7 +251,9 @@
             mermaid.initialize({
                 startOnLoad: true,
                 theme: document.body.classList.contains('dark') ? 'dark' : 'default',
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Inter, sans-serif',
+                flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'cardinal' },
+                securityLevel: 'loose'
             });
         });
     </script>
