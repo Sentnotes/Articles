@@ -1,4 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 0. Splash Screen Logic
+    const splashScreen = document.getElementById('splash-screen');
+    if (splashScreen) {
+        // Wait for snappier typing animation to complete (0.5s delay + 2s typing + 0.5s pause = 3.0s)
+        setTimeout(() => {
+            splashScreen.classList.add('fade-out');
+            document.body.classList.remove('splash-active');
+            
+            // Wait for 0.8s fade to finish before removing from flow completely
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+            }, 800);
+        }, 3000);
+    }
+
     // 1. Navbar Node Highway (Bi-Directional)
     class NodeHighway {
         constructor() {

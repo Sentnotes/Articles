@@ -54,11 +54,85 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* Splash Screen */
+body.splash-active {
+    overflow: hidden;
+}
+
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-primary);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s;
+}
+
+#splash-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.splash-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.splash-logo {
+    height: 160px; /* Doubled in size */
+    width: auto;
+    filter: drop-shadow(0 4px 12px rgba(45, 212, 191, 0.2));
+}
+
+body.dark .splash-logo {
+    filter: invert(1) brightness(1.2) drop-shadow(0 4px 12px rgba(45, 212, 191, 0.4));
+}
+
+.splash-text-container {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 4px solid var(--accent-teal);
+    padding-right: 6px;
+    max-width: 0;
+    animation: 
+        typing 2s steps(15, end) forwards, /* Snappier 2s typewriter steps */
+        blink-caret 0.75s step-end infinite;
+    animation-delay: 0.5s;
+}
+
+.splash-typing {
+    font-weight: 800;
+    font-size: 3.5rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--text-primary) 0%, rgba(255,255,255,0.6) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes typing {
+    from { max-width: 0; }
+    to { max-width: 400px; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--accent-teal); }
+}
+
 /* Layout */
+
 .container {
     max-width: 1250px;
     margin: 0 auto;
-    padding: 120px 24px 80px;
+    padding: 120px 24px 80px; /* Restored original top padding */
     display: flex;
     gap: 5rem;
 }
@@ -74,13 +148,13 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 90px; /* Increased from 70px */
+    height: 90px; /* Kept sleek and relatively small */
     background-color: var(--nav-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
     z-index: 100;
-    overflow: hidden; /* For the canvas */
+    /* Removed overflow: hidden so the larger logo can break out of the navbar constraints */
 }
 
 #node-highway {
@@ -114,7 +188,7 @@ body {
 
 .logo {
     font-weight: 800;
-    font-size: 1.75rem;
+    font-size: 1.75rem; /* Restored to original size */
     letter-spacing: -0.02em;
     background: linear-gradient(135deg, var(--text-primary) 0%, rgba(255,255,255,0.6) 100%);
     -webkit-background-clip: text;
@@ -147,14 +221,16 @@ body {
 }
 
 .header-logo {
-    height: 80px; /* Significantly increased size */
+    height: 80px; 
     width: auto;
     filter: drop-shadow(0 4px 12px rgba(45, 212, 191, 0.2));
+    transform: scale(1.4); /* Scaled up visually without expanding the navbar row height */
+    transform-origin: center left;
     transition: transform 0.3s ease;
 }
 
 .header-logo:hover {
-    transform: scale(1.05) rotate(2deg);
+    transform: scale(1.5) rotate(2deg);
 }
 
 /* Sidebar & TOC - Preserved Structure */
