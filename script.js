@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initApp = () => {
     // 0. Splash Screen Logic
     const splashScreen = document.getElementById('splash-screen');
     if (splashScreen) {
@@ -256,4 +256,175 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initDiagramAnimation();
-});
+
+    // 3. Data Harmonization Scanner (Pretext Visualization)
+    class DataHarmonizer {
+        constructor() {
+            this.canvas = document.getElementById('data-harmonizer');
+            if (!this.canvas) return;
+            this.ctx = this.canvas.getContext('2d');
+            
+            const rawText = "Patient 45y male presents with acute cephalgia. History of HTN. Meds: Lisinopril 10mg. BP 145/90. Labs WNL. Fragmented note from specialist: MRI negative, possible tension vs migraine. Unstructured clinical events frequently obscure longitudinal patterns. Patient states symptoms worsen evening. Need to synthesize multi-source fragments into structured representation. Validated via Popperian constraints: evidence must be falsifiable and traceable. ";
+            
+            this.words = rawText.repeat(8).split(' ').map(word => ({
+                text: word, x: 0, y: 0, targetX: 0, targetY: 0, width: 0
+            }));
+            
+            this.mouseX = -1000;
+            this.mouseY = -1000;
+            this.radius = 110;
+            this.pretextEngine = null;
+            
+            window.addEventListener('resize', () => this.resize());
+            this.canvas.addEventListener('mousemove', (e) => {
+                const rect = this.canvas.getBoundingClientRect();
+                this.mouseX = e.clientX - rect.left;
+                this.mouseY = e.clientY - rect.top;
+            });
+            this.canvas.addEventListener('mouseleave', () => {
+                this.mouseX = -1000;
+                this.mouseY = -1000;
+            });
+            
+            // Mobile Touch Support
+            const handleTouch = (e) => {
+                if (e.touches.length > 0) {
+                    const rect = this.canvas.getBoundingClientRect();
+                    this.mouseX = e.touches[0].clientX - rect.left;
+                    this.mouseY = e.touches[0].clientY - rect.top;
+                }
+            };
+            this.canvas.addEventListener('touchstart', handleTouch, {passive: true});
+            this.canvas.addEventListener('touchmove', handleTouch, {passive: true});
+            this.canvas.addEventListener('touchend', () => {
+                this.mouseX = -1000;
+                this.mouseY = -1000;
+            });
+            
+            this.init();
+        }
+        
+        async init() {
+            this.resize();
+            try {
+                // Dynamically import Pretext JS for high-performance layout/measurement
+                this.pretextEngine = await import('https://esm.sh/@chenglou/pretext');
+                console.log("Pretext JS loaded successfully for Data Harmonization Scanner.");
+            } catch (e) {
+                console.warn("Pretext CDN unavailable. Using native Canvas fallback.", e);
+            }
+            
+            this.calculateMetrics();
+            this.layout();
+            this.animate();
+        }
+        
+        resize() {
+            const parent = this.canvas.parentElement;
+            this.canvas.width = parent.clientWidth * window.devicePixelRatio;
+            this.canvas.height = parent.clientHeight * window.devicePixelRatio;
+            this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            this.width = parent.clientWidth;
+            this.height = parent.clientHeight;
+            if (this.words.length > 0) this.layout();
+        }
+        
+        calculateMetrics() {
+            this.ctx.font = '15px Inter, sans-serif';
+            // Utilize Pretext engine for off-DOM measurement if available
+            this.words.forEach(w => {
+                if (this.pretextEngine && this.pretextEngine.measureText) {
+                    w.width = this.pretextEngine.measureText(w.text, '15px Inter').width;
+                } else {
+                    w.width = this.ctx.measureText(w.text + ' ').width; // Native fallback
+                }
+            });
+        }
+        
+        layout() {
+            const lineHeight = 28;
+            let startX = 30;
+            let startY = 40;
+            
+            this.words.forEach(w => {
+                if (startX + w.width > this.width - 30) {
+                    startX = 30;
+                    startY += lineHeight;
+                }
+                w.targetX = startX;
+                w.targetY = startY;
+                
+                if (w.fragmentX === undefined) {
+                    w.fragmentX = Math.random() * this.width;
+                    w.fragmentY = Math.random() * this.height;
+                }
+                
+                if (w.x === 0 && w.y === 0) {
+                    w.x = w.fragmentX;
+                    w.y = w.fragmentY;
+                }
+                startX += w.width;
+            });
+        }
+        
+        animate() {
+            this.ctx.clearRect(0, 0, this.width, this.height);
+            this.ctx.font = '15px Inter, sans-serif';
+            this.ctx.textBaseline = 'middle';
+            
+            const isDarkMode = document.body.classList.contains('dark');
+            const defaultColor = isDarkMode ? 'rgba(148, 163, 184, 0.3)' : 'rgba(71, 85, 105, 0.3)';
+            const activeColor = isDarkMode ? '#2dd4bf' : '#0d9488'; // Teal
+
+            this.words.forEach(w => {
+                const dx = w.targetX + (w.width/2) - this.mouseX;
+                const dy = w.targetY - this.mouseY;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                
+                let drawX, drawY;
+                let isStructured = false;
+                
+                if (dist < this.radius) {
+                    // Structure the information logically inside the scanner radius
+                    drawX = w.targetX;
+                    drawY = w.targetY;
+                    isStructured = true;
+                } else {
+                    // Maintain epistemic fragmentation outside
+                    drawX = w.fragmentX;
+                    drawY = w.fragmentY;
+                    
+                    // Simple chaotic drift
+                    w.fragmentX += (Math.random() - 0.5) * 0.4;
+                    w.fragmentY += (Math.random() - 0.5) * 0.4;
+                }
+                
+                // Spring physics targeting proper location
+                w.x += (drawX - w.x) * 0.15;
+                w.y += (drawY - w.y) * 0.15;
+                
+                this.ctx.fillStyle = isStructured ? activeColor : defaultColor;
+                this.ctx.fillText(w.text, w.x, w.y);
+            });
+            
+            if (this.mouseX > 0) {
+                this.ctx.beginPath();
+                this.ctx.arc(this.mouseX, this.mouseY, this.radius, 0, Math.PI * 2);
+                this.ctx.strokeStyle = activeColor;
+                this.ctx.lineWidth = 1;
+                this.ctx.setLineDash([4, 4]);
+                this.ctx.stroke();
+                this.ctx.setLineDash([]); // reset
+            }
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+    new DataHarmonizer();
+
+};
+
+if (document.readyState === 'loading') {    
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}

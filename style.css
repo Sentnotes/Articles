@@ -309,6 +309,49 @@ body.dark .splash-logo {
     box-shadow: var(--shadow);
 }
 
+/* Interactive Widget (Pretext Data Scanner) */
+.interactive-widget {
+    margin: 4rem 0;
+    overflow: hidden;
+    position: relative;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.widget-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.widget-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent-teal);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.widget-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.canvas-wrapper {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    cursor: crosshair;
+    background: var(--bg-primary); /* Base for text visibility */
+}
+
+#data-harmonizer {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
 /* Diagram styling */
 .diagram-container {
     margin: 4rem 0;
