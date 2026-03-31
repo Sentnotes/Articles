@@ -148,7 +148,7 @@ const initApp = () => {
 
         // --- DESKTOP LIQUID WAVE TRANSITION ---
         const dispMap = document.getElementById('liquid-disp');
-        const duration = 900;
+        const duration = 1500; // 1.5 Seconds
         const start = performance.now();
 
         pageContent.style.filter = 'url(#liquid-distort)';
@@ -176,8 +176,9 @@ const initApp = () => {
         }
 
         requestAnimationFrame(animateWave);
-        setTimeout(() => applyTheme(targetTheme), 450);
+        setTimeout(() => applyTheme(targetTheme), 750); // Flip at halfway (750ms)
     }
+
 
 
 
