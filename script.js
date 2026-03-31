@@ -119,39 +119,38 @@ const initApp = () => {
         if (isTransitioning) return;
         isTransitioning = true;
 
+        const pageContent = document.getElementById('page-content');
         const dispMap = document.getElementById('liquid-disp');
         const duration = 900;
         const start = performance.now();
 
-        // Apply the filter directly on body from frame 0 — no CSS transition lag
-        body.style.filter = 'url(#liquid-distort)';
-        body.classList.add('theme-dissolving');
+        // Apply filter directly to page-content from frame 0 (not body — fixes mobile Safari)
+        pageContent.style.filter = 'url(#liquid-distort)';
+        pageContent.classList.add('theme-dissolving');
 
         function animateWave(now) {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
 
-            // Smooth quadratic ease-in-out bell
             const eased = progress < 0.5
                 ? 2 * progress * progress
                 : 1 - Math.pow(-2 * progress + 2, 2) / 2;
             const wave = Math.sin(eased * Math.PI);
-            const scale = wave * 30; // bolder displacement for visible wave
+            const scale = wave * 30;
             dispMap.setAttribute('scale', scale);
 
             if (progress < 1) {
                 requestAnimationFrame(animateWave);
             } else {
                 dispMap.setAttribute('scale', 0);
-                body.style.filter = '';
-                body.classList.remove('theme-dissolving');
+                pageContent.style.filter = '';
+                pageContent.classList.remove('theme-dissolving');
                 isTransitioning = false;
             }
         }
 
         requestAnimationFrame(animateWave);
 
-        // Switch theme at the wave peak
         setTimeout(() => applyTheme(targetTheme), 450);
     }
 
@@ -415,7 +414,7 @@ const initApp = () => {
             
             const isDarkMode = document.body.classList.contains('dark');
             const defaultColor = isDarkMode ? 'rgba(148, 163, 184, 0.3)' : 'rgba(71, 85, 105, 0.3)';
-            const activeColor = isDarkMode ? '#2dd4bf' : '#0d9488'; // Teal
+            const activeColor = isDarkMode ? '#2dd4bf' : '#111827'; // Teal (dark mode), Navy/Black (light mode)
 
             this.words.forEach(w => {
                 const dx = w.targetX + (w.width/2) - this.mouseX;

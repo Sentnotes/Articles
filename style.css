@@ -55,11 +55,11 @@ body {
 }
 
 /* Theme Blur Dissolve + Liquid Wave */
-body {
+#page-content {
     transition: opacity 0.35s ease-in-out;
 }
 
-body.theme-dissolving {
+#page-content.theme-dissolving {
     opacity: 0.88;
 }
 
