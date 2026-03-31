@@ -120,11 +120,37 @@ const initApp = () => {
         isTransitioning = true;
 
         const pageContent = document.getElementById('page-content');
+        const isMobile = window.innerWidth <= 768;
+
+        // --- MOBILE SAFE TRANSITION ---
+        if (isMobile) {
+            // Apple's mobile engine cannot handle SVG displacement on the DOM without blinking.
+            // We use a beautifully smooth, hardware-accelerated blur dissolve instead.
+            pageContent.style.transition = 'filter 0.35s ease-in, opacity 0.35s ease-in';
+            pageContent.style.filter = 'blur(8px) brightness(0.9)';
+            pageContent.style.opacity = '0.8';
+
+            setTimeout(() => {
+                applyTheme(targetTheme);
+                
+                pageContent.style.transition = 'filter 0.35s ease-out, opacity 0.35s ease-out';
+                pageContent.style.filter = 'blur(0px) brightness(1)';
+                pageContent.style.opacity = '1';
+                
+                setTimeout(() => {
+                    pageContent.style.transition = '';
+                    pageContent.style.filter = '';
+                    isTransitioning = false;
+                }, 350);
+            }, 350);
+            return;
+        }
+
+        // --- DESKTOP LIQUID WAVE TRANSITION ---
         const dispMap = document.getElementById('liquid-disp');
         const duration = 900;
         const start = performance.now();
 
-        // Apply filter directly to page-content
         pageContent.style.filter = 'url(#liquid-distort)';
         pageContent.classList.add('theme-dissolving');
 
@@ -136,7 +162,7 @@ const initApp = () => {
                 ? 2 * progress * progress
                 : 1 - Math.pow(-2 * progress + 2, 2) / 2;
             const wave = Math.sin(eased * Math.PI);
-            const scale = wave * 30; // maximum displacement
+            const scale = wave * 30; 
             if (dispMap) dispMap.setAttribute('scale', scale);
 
             if (progress < 1) {
@@ -150,10 +176,9 @@ const initApp = () => {
         }
 
         requestAnimationFrame(animateWave);
-
-        // Switch theme at the visual midpoint of the wave
         setTimeout(() => applyTheme(targetTheme), 450);
     }
+
 
 
 
