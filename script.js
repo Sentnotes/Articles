@@ -124,7 +124,7 @@ const initApp = () => {
         const duration = 900;
         const start = performance.now();
 
-        // Apply filter directly to page-content from frame 0 (not body — fixes mobile Safari)
+        // Apply filter directly to page-content
         pageContent.style.filter = 'url(#liquid-distort)';
         pageContent.classList.add('theme-dissolving');
 
@@ -136,13 +136,13 @@ const initApp = () => {
                 ? 2 * progress * progress
                 : 1 - Math.pow(-2 * progress + 2, 2) / 2;
             const wave = Math.sin(eased * Math.PI);
-            const scale = wave * 30;
-            dispMap.setAttribute('scale', scale);
+            const scale = wave * 30; // maximum displacement
+            if (dispMap) dispMap.setAttribute('scale', scale);
 
             if (progress < 1) {
                 requestAnimationFrame(animateWave);
             } else {
-                dispMap.setAttribute('scale', 0);
+                if (dispMap) dispMap.setAttribute('scale', 0);
                 pageContent.style.filter = '';
                 pageContent.classList.remove('theme-dissolving');
                 isTransitioning = false;
@@ -151,8 +151,11 @@ const initApp = () => {
 
         requestAnimationFrame(animateWave);
 
+        // Switch theme at the visual midpoint of the wave
         setTimeout(() => applyTheme(targetTheme), 450);
     }
+
+
 
     const savedTheme = localStorage.getItem('theme') || 'dark';
     applyTheme(savedTheme);

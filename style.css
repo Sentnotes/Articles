@@ -54,7 +54,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Theme Blur Dissolve + Liquid Wave */
+/* Liquid Wave Distortion Layer */
 #page-content {
     transition: opacity 0.35s ease-in-out;
 }
