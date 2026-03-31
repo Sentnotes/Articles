@@ -95,34 +95,75 @@ const initApp = () => {
 
     new NodeHighway();
 
-    // 2. Dark Mode Toggle
+    // 2. Dark Mode Toggle — Blur Dissolve
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     const sunIcon = document.querySelector('.icon.sun');
     const moonIcon = document.querySelector('.icon.moon');
+    let isTransitioning = false;
 
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = body.classList.contains('dark') ? 'light' : 'dark';
-        setTheme(currentTheme);
-    });
-
-    function setTheme(theme) {
+    function applyTheme(theme) {
         if (theme === 'dark') {
             body.classList.add('dark');
             sunIcon.style.display = 'block';
             moonIcon.style.display = 'none';
-            localStorage.setItem('theme', 'dark');
         } else {
             body.classList.remove('dark');
             sunIcon.style.display = 'none';
             moonIcon.style.display = 'block';
-            localStorage.setItem('theme', 'light');
         }
-        // Let mermaid know theme changed if needed (would require re-render)
+        localStorage.setItem('theme', theme);
     }
+
+    function triggerDissolve(targetTheme) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        const dispMap = document.getElementById('liquid-disp');
+        const duration = 900;
+        const start = performance.now();
+
+        // Apply the filter directly on body from frame 0 — no CSS transition lag
+        body.style.filter = 'url(#liquid-distort)';
+        body.classList.add('theme-dissolving');
+
+        function animateWave(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Smooth quadratic ease-in-out bell
+            const eased = progress < 0.5
+                ? 2 * progress * progress
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+            const wave = Math.sin(eased * Math.PI);
+            const scale = wave * 30; // bolder displacement for visible wave
+            dispMap.setAttribute('scale', scale);
+
+            if (progress < 1) {
+                requestAnimationFrame(animateWave);
+            } else {
+                dispMap.setAttribute('scale', 0);
+                body.style.filter = '';
+                body.classList.remove('theme-dissolving');
+                isTransitioning = false;
+            }
+        }
+
+        requestAnimationFrame(animateWave);
+
+        // Switch theme at the wave peak
+        setTimeout(() => applyTheme(targetTheme), 450);
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+        const targetTheme = body.classList.contains('dark') ? 'light' : 'dark';
+        triggerDissolve(targetTheme);
+    });
+
+
 
     // 3. Reading Progress Bar
     const progressBar = document.getElementById('progress-bar');

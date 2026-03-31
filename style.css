@@ -54,6 +54,15 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* Theme Blur Dissolve + Liquid Wave */
+body {
+    transition: opacity 0.35s ease-in-out;
+}
+
+body.theme-dissolving {
+    opacity: 0.88;
+}
+
 /* Splash Screen */
 body.splash-active {
     overflow: hidden;
