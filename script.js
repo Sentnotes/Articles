@@ -151,7 +151,9 @@ const initApp = () => {
         const duration = 1500; // 1.5 Seconds
         const start = performance.now();
 
-        pageContent.style.filter = 'url(#liquid-distort)';
+        // Construct absolute URL to guarantee browser finds the SVG filter on live servers (fixes GitHub Pages pathing issue)
+        const absoluteUrl = window.location.href.split('#')[0];
+        pageContent.style.filter = `url("${absoluteUrl}#liquid-distort")`;
         pageContent.classList.add('theme-dissolving');
 
         function animateWave(now) {
