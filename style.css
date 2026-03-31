@@ -54,6 +54,36 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* Mobile Theme Blur Overlay */
+#theme-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease, backdrop-filter 0.35s ease;
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
+    will-change: opacity, backdrop-filter;
+}
+
+#theme-overlay.dissolve-dark {
+    background: rgba(15, 23, 42, 0.6);
+    opacity: 1;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+}
+
+#theme-overlay.dissolve-light {
+    background: rgba(248, 250, 252, 0.6);
+    opacity: 1;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+}
+
 /* Liquid Wave Distortion Layer */
 #page-content {
     transition: opacity 0.35s ease-in-out;

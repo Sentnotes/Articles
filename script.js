@@ -124,22 +124,22 @@ const initApp = () => {
 
         // --- MOBILE SAFE TRANSITION ---
         if (isMobile) {
-            // Apple's mobile engine cannot handle SVG displacement on the DOM without blinking.
-            // We use a beautifully smooth, hardware-accelerated blur dissolve instead.
-            pageContent.style.transition = 'filter 0.35s ease-in, opacity 0.35s ease-in';
-            pageContent.style.filter = 'blur(8px) brightness(0.9)';
-            pageContent.style.opacity = '0.8';
+            // Apple's mobile engine breaks when applying filters directly to the DOM.
+            // Solution: We fade in a full-screen overlay with `backdrop-filter`, switch the theme underneath, and fade it out.
+            const overlay = document.getElementById('theme-overlay');
+            
+            // Fade the blurred overlay IN
+            overlay.className = targetTheme === 'dark' ? 'dissolve-dark' : 'dissolve-light';
 
+            // Wait for it to fully cover the screen (350ms)
             setTimeout(() => {
+                // Instantly flip theme underneath
                 applyTheme(targetTheme);
                 
-                pageContent.style.transition = 'filter 0.35s ease-out, opacity 0.35s ease-out';
-                pageContent.style.filter = 'blur(0px) brightness(1)';
-                pageContent.style.opacity = '1';
+                // Fade the blurred overlay OUT
+                overlay.className = '';
                 
                 setTimeout(() => {
-                    pageContent.style.transition = '';
-                    pageContent.style.filter = '';
                     isTransitioning = false;
                 }, 350);
             }, 350);
