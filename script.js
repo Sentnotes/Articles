@@ -120,33 +120,8 @@ const initApp = () => {
         isTransitioning = true;
 
         const pageContent = document.getElementById('page-content');
-        const isMobile = window.innerWidth <= 768;
 
-        // --- MOBILE SAFE TRANSITION ---
-        if (isMobile) {
-            // Apple's mobile engine breaks when applying filters directly to the DOM.
-            // Solution: We fade in a full-screen overlay with `backdrop-filter`, switch the theme underneath, and fade it out.
-            const overlay = document.getElementById('theme-overlay');
-            
-            // Fade the blurred overlay IN
-            overlay.className = targetTheme === 'dark' ? 'dissolve-dark' : 'dissolve-light';
-
-            // Wait for it to fully cover the screen (350ms)
-            setTimeout(() => {
-                // Instantly flip theme underneath
-                applyTheme(targetTheme);
-                
-                // Fade the blurred overlay OUT
-                overlay.className = '';
-                
-                setTimeout(() => {
-                    isTransitioning = false;
-                }, 350);
-            }, 350);
-            return;
-        }
-
-        // --- DESKTOP LIQUID WAVE TRANSITION ---
+        // --- UNIVERSAL LIQUID WAVE TRANSITION ---
         const dispMap = document.getElementById('liquid-disp');
         const duration = 1500; // 1.5 Seconds
         const start = performance.now();
