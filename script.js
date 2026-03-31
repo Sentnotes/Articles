@@ -95,22 +95,16 @@ const initApp = () => {
 
     new NodeHighway();
 
-    // 2. Dark Mode Toggle — Blur Dissolve
+    // 2. Dark Mode Toggle — Liquid Wave & Pill Switch
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
-    const sunIcon = document.querySelector('.icon.sun');
-    const moonIcon = document.querySelector('.icon.moon');
     let isTransitioning = false;
 
     function applyTheme(theme) {
         if (theme === 'dark') {
             body.classList.add('dark');
-            sunIcon.style.display = 'block';
-            moonIcon.style.display = 'none';
         } else {
             body.classList.remove('dark');
-            sunIcon.style.display = 'none';
-            moonIcon.style.display = 'block';
         }
         localStorage.setItem('theme', theme);
     }
@@ -120,6 +114,31 @@ const initApp = () => {
         isTransitioning = true;
 
         const pageContent = document.getElementById('page-content');
+        const isMobile = window.innerWidth <= 768;
+
+        // --- MOBILE SAFE TRANSITION ---
+        if (isMobile) {
+            // Apple's mobile engine breaks when applying filters directly to the DOM.
+            // Solution: We fade in a full-screen overlay with `backdrop-filter`, switch the theme underneath, and fade it out.
+            const overlay = document.getElementById('theme-overlay');
+            
+            // Fade the blurred overlay IN
+            overlay.className = targetTheme === 'dark' ? 'dissolve-dark' : 'dissolve-light';
+
+            // Wait for it to fully cover the screen (350ms)
+            setTimeout(() => {
+                // Instantly flip theme underneath
+                applyTheme(targetTheme);
+                
+                // Fade the blurred overlay OUT
+                overlay.className = '';
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 350);
+            }, 350);
+            return;
+        }
 
         // --- UNIVERSAL LIQUID WAVE TRANSITION ---
         const dispMap = document.getElementById('liquid-disp');
@@ -178,6 +197,36 @@ const initApp = () => {
         const scrollPercentage = (scrollTop / scrollHeight) * 100;
         progressBar.style.width = scrollPercentage + '%';
     });
+
+    // 3b. Seamless Header Scroll Dissolve — text blurs into the clouds
+    const navbarContent = document.querySelector('.navbar-content');
+    const cloudHeroZone = document.querySelector('.clouds-parallax-container');
+    const DISSOLVE_START = 0;   // px scrolled before effect begins
+    const DISSOLVE_END   = 120; // px scrolled when fully dissolved
+
+    function updateScrollDissolve() {
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        const raw = Math.min(Math.max(scrollY - DISSOLVE_START, 0), DISSOLVE_END - DISSOLVE_START);
+        const progress = raw / (DISSOLVE_END - DISSOLVE_START); // 0 → 1
+
+        const blurPx  = progress * 16;         // Deeper 16px blur
+        const opacity = 1 - progress * 0.95;   // 1 → 0.05
+
+        if (navbarContent) {
+            navbarContent.style.opacity = opacity;
+            navbarContent.style.filter  = blurPx > 0 ? `blur(${blurPx.toFixed(2)}px)` : '';
+        }
+
+        // Cloud hero zone stays consistent (fixed) so text can blur behind the moving clouds
+        if (cloudHeroZone) {
+            cloudHeroZone.style.opacity = '1';
+            cloudHeroZone.style.filter = '';
+        }
+    }
+
+    window.addEventListener('scroll', updateScrollDissolve, { passive: true });
+    updateScrollDissolve(); // Apply on load in case page is pre-scrolled
+
 
     // 4. Content Reveals (Intersection Observer)
     const revealOptions = {
