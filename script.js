@@ -201,42 +201,45 @@ const initApp = () => {
     // 3b. Seamless Header Scroll Dissolve — text blurs into the clouds
     const navbarContent = document.querySelector('.navbar-content');
     const cloudHeroZone = document.querySelector('.clouds-parallax-container');
+    const blurOverlay   = document.querySelector('.blur-overlay');
     const articleHeader = document.querySelector('.article-header');
-    const abstract      = document.querySelector('#abstract');
-    const DISSOLVE_START = 0;   // px scrolled before effect begins
-    const DISSOLVE_END   = 200; // px scrolled when fully dissolved
+    
+    const DISSOLVE_START = 20;   // Wait 20px before starting dissolve so it's sharp on load
+    const DISSOLVE_END   = 220;  // Fully dissolved by 220px
 
     function updateScrollDissolve() {
         const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // 1. Calculate general progress (0 to 1)
         const raw = Math.min(Math.max(scrollY - DISSOLVE_START, 0), DISSOLVE_END - DISSOLVE_START);
-        const progress = raw / (DISSOLVE_END - DISSOLVE_START); // 0 → 1
+        const progress = raw / (DISSOLVE_END - DISSOLVE_START);
 
-        const blurPx  = progress * 16;         
-        const opacity = 1 - progress * 1.0;   // 1 → 0
+        // 2. Control the Blur Overlay (Atmospheric Depth)
+        if (blurOverlay) {
+            // Only fade in as we scroll e.g. 50px
+            const overlayProgress = Math.min(Math.max((scrollY - 40) / 100, 0), 1);
+            blurOverlay.style.opacity = overlayProgress.toFixed(2);
+        }
 
-        // Navbar contents (logo/toggle) fade out
+        // 3. Navbar contents (logo/toggle) fade out
         if (navbarContent) {
-            navbarContent.style.opacity = 1 - (progress * 0.9); // Keep a tiny bit visible or fully fade
-            navbarContent.style.filter  = blurPx > 0 ? `blur(${blurPx.toFixed(2)}px)` : '';
+            navbarContent.style.opacity = 1 - (progress * 0.9);
+            const navBlurPx = progress * 12;
+            navbarContent.style.filter  = navBlurPx > 0.5 ? `blur(${navBlurPx.toFixed(2)}px)` : '';
         }
 
-        // Article title and abstract blur and fade as they hit the clouds
+        // 4. Article Title Dissolve (Dynamic Blur + Parallax)
         if (articleHeader) {
-            articleHeader.style.opacity = opacity;
-            articleHeader.style.filter  = blurPx > 0 ? `blur(${blurPx.toFixed(2)}px)` : '';
-            articleHeader.style.transform = `translateY(${scrollY * 0.2}px)`; // Subtle parallax push-down
-        }
-        if (abstract) {
-            // Abstract fades slightly later
-            const abstractProgress = Math.min(Math.max((scrollY - 100) / 150, 0), 1);
-            abstract.style.opacity = 1 - abstractProgress;
-            abstract.style.filter = abstractProgress > 0 ? `blur(${(abstractProgress * 8).toFixed(2)}px)` : '';
+            const titleFade = Math.min(Math.max((scrollY - 0) / 180, 0), 1); // Fade out by 180px
+            const titleBlur = titleFade * 20; 
+            
+            articleHeader.style.opacity = (1 - titleFade).toFixed(2);
+            articleHeader.style.filter  = titleBlur > 1 ? `blur(${titleBlur.toFixed(2)}px)` : '';
+            articleHeader.style.transform = `translateY(${scrollY * 0.25}px)`; // Parallax push-down
         }
 
-        // Cloud hero zone stays consistent (fixed)
-        if (cloudHeroZone) {
-            cloudHeroZone.style.opacity = '1';
-        }
+        // Note: Abstract block-blur removed. It now scrolls naturally behind the 
+        // atmosphere/clouds without a sudden code-driven pop.
     }
 
     window.addEventListener('scroll', updateScrollDissolve, { passive: true });
