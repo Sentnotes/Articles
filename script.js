@@ -201,26 +201,41 @@ const initApp = () => {
     // 3b. Seamless Header Scroll Dissolve — text blurs into the clouds
     const navbarContent = document.querySelector('.navbar-content');
     const cloudHeroZone = document.querySelector('.clouds-parallax-container');
+    const articleHeader = document.querySelector('.article-header');
+    const abstract      = document.querySelector('#abstract');
     const DISSOLVE_START = 0;   // px scrolled before effect begins
-    const DISSOLVE_END   = 120; // px scrolled when fully dissolved
+    const DISSOLVE_END   = 200; // px scrolled when fully dissolved
 
     function updateScrollDissolve() {
         const scrollY = window.pageYOffset || document.documentElement.scrollTop;
         const raw = Math.min(Math.max(scrollY - DISSOLVE_START, 0), DISSOLVE_END - DISSOLVE_START);
         const progress = raw / (DISSOLVE_END - DISSOLVE_START); // 0 → 1
 
-        const blurPx  = progress * 16;         // Deeper 16px blur
-        const opacity = 1 - progress * 0.95;   // 1 → 0.05
+        const blurPx  = progress * 16;         
+        const opacity = 1 - progress * 1.0;   // 1 → 0
 
+        // Navbar contents (logo/toggle) fade out
         if (navbarContent) {
-            navbarContent.style.opacity = opacity;
+            navbarContent.style.opacity = 1 - (progress * 0.9); // Keep a tiny bit visible or fully fade
             navbarContent.style.filter  = blurPx > 0 ? `blur(${blurPx.toFixed(2)}px)` : '';
         }
 
-        // Cloud hero zone stays consistent (fixed) so text can blur behind the moving clouds
+        // Article title and abstract blur and fade as they hit the clouds
+        if (articleHeader) {
+            articleHeader.style.opacity = opacity;
+            articleHeader.style.filter  = blurPx > 0 ? `blur(${blurPx.toFixed(2)}px)` : '';
+            articleHeader.style.transform = `translateY(${scrollY * 0.2}px)`; // Subtle parallax push-down
+        }
+        if (abstract) {
+            // Abstract fades slightly later
+            const abstractProgress = Math.min(Math.max((scrollY - 100) / 150, 0), 1);
+            abstract.style.opacity = 1 - abstractProgress;
+            abstract.style.filter = abstractProgress > 0 ? `blur(${(abstractProgress * 8).toFixed(2)}px)` : '';
+        }
+
+        // Cloud hero zone stays consistent (fixed)
         if (cloudHeroZone) {
             cloudHeroZone.style.opacity = '1';
-            cloudHeroZone.style.filter = '';
         }
     }
 
